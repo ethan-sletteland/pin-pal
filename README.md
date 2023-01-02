@@ -1,4 +1,7 @@
-# Getting Started with Create React App
+# Pin-Pal button maker app
+
+You can use this app to upload and format images for printing such that they can be cut out and used in a standard button maker.
+Persistent storage is through [Firebase](https://firebase.google.com), just make a free account, copy config-example.ts as config.ts, then add your credentials.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
 
