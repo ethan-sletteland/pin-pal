@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { fetchImagesAsync, selectImages, addImageAsync, deleteImageAsync, select, deselect, selectSelected } from './librarySlice';
 import styles from './Library.module.css';
-import { Button, FormControl, FormControlLabel, FormLabel, IconButton, Radio, RadioGroup, TextField } from '@mui/material';
+import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
@@ -16,17 +16,16 @@ export function Library() {
     const fileInput: React.RefObject<any> = React.createRef();
 
     const pinSizes: PinSize[] = [
-        {name: '1.25', size: 1.25, class: 'one-two-five'},
-        {name: '1.5', size: 1.5, class: 'one-five'},
-        {name: '2', size: 2, class: 'two'},
+        {name: '1.25', size: 1.25, class: 'one-two-five', maxPerPage: 48},
+        {name: '1.5', size: 1.5, class: 'one-five', maxPerPage: 35},
+        {name: '2', size: 2, class: 'two', maxPerPage: 15},
     ]    
     const [pinSize, setPinsize] = useState(pinSizes[0]);
     const [fileName, setfileName] = useState('');
 
     const [pages, setPages] = useState(1);
     
-    const maxPerPage = 48
-    const maxPrint = maxPerPage * pages
+    const maxPrint = pinSize.maxPerPage * pages
     const printArrayLimit = Array.from(selected, (e) => Array(Math.ceil(maxPrint/selected.length)).fill(e)).flat()
     printArrayLimit.length = maxPrint
 
@@ -36,6 +35,10 @@ export function Library() {
         if (!event.target)  return false
         const pNum = parseInt((event.target as HTMLInputElement).value)
         setPages((!isNaN(pNum) && pNum >= 1) ? pNum : 1)
+     }
+    
+    const handlePinSize = (event: SelectChangeEvent) => {
+        setPinsize(pinSizes.filter((e) => e.name === (event.target as HTMLInputElement).value)[0])
      }
     
     const submit = (event: FormEvent<HTMLFormElement>) => { 
@@ -81,23 +84,27 @@ export function Library() {
                         type="submit">Upload</Button>
                 </form>
 
-                {/* <div>
-                    <FormControl>
-                    <FormLabel id="demo-radio-buttons-group-label">Pin Size</FormLabel>
-                    <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue="female"
-                        name="radio-buttons-group"
+                <div>
+                    <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Pin Size</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={pinSize.name}
+                        label="Pin Size"
+                        onChange={ (event) => handlePinSize(event) }
                     >
-                            {pinSizes.map((e, i) => {
-                                return <FormControlLabel key={i} value={e} control={<Radio />} label={e.name} />
-                            })}
-                    </RadioGroup>
+                        {pinSizes.map((e, i) => {
+                            return <MenuItem key={ i } value={e.name}>{e.name}</MenuItem>
+                        })}
+                    </Select>
                     </FormControl>
-                </div> */}
+                </div>
+
                 <div>
                     <TextField id="pages" label="Pages" type="number" variant="standard" value={pages} onChange={(e) => handlePages(e)}/>
                 </div>
+                
                 <div><Button
                     variant="contained"
                     endIcon={<PrintIcon/>}
@@ -121,8 +128,8 @@ export function Library() {
             <div className={styles.printGrid}>
 
                 {printArrayLimit.map((image, i) => {
-                    return <div key={i} className={ `${styles.printCell} ${(((i + 1) % maxPerPage) === 0)?styles.pageBreak:''}` } >
-                        <img src={image} className={ styles.printImage } alt="logo" />
+                    return <div key={i} className={ `${styles.printCell} ${styles[pinSize.class]} ${(((i + 1) % pinSize.maxPerPage) === 0)?styles.pageBreak:''}` } >
+                        <img src={image} className={ `${styles.printImage}` } alt="logo" />
                     </div>
                 })}
             
@@ -135,4 +142,5 @@ interface PinSize {
     name: string;
     class: string;
     size: number;
+    maxPerPage: number;
 }

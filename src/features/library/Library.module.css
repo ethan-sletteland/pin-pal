@@ -77,10 +77,20 @@
     /* flex-wrap: wrap; */
   }
   .printCell {
-    height: 1.25in;
-    width: 1.25in;
     display: inline-block;
     break-inside: avoid;
+  }  
+  .printCell.one-two-five {
+    height: 1.25in;
+    width: 1.25in;
+  }
+  .printCell.one-five {
+    height: 1.5in;
+    width: 1.5in;
+  }
+  .printCell.two {
+    height: 2in;
+    width: 2in;
   }
   .printImage {
     object-fit: cover;
