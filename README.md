@@ -1,7 +1,17 @@
 # Pin-Pal button maker app
 
 You can use this app to upload and format images for printing such that they can be cut out and used in a standard button maker.
-Persistent storage is through [Firebase](https://firebase.google.com), just make a free account, copy config-example.ts as config.ts, then add your credentials.
+Persistent storage is through [Firebase](https://firebase.google.com), just make a free account, create a `.env` file in the `/source` folder, then add your credentials as below.
+
+```
+  REACT_APP_FIREBASE_API_KEY: "XXX",
+  REACT_APP_FIREBASE_AUTH_DOMAI: "XXX",
+  REACT_APP_FIREBASE_DATABASE_URL: "XXX",
+  REACT_APP_FIREBASE_PROJECT_ID: "XXX",
+  REACT_APP_FIREBASE_STORAGE_BUCKET: "XXX",
+  REACT_APP_FIREBASE_MESSAGING_SENDER_ID: "XXX"
+
+```
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
 

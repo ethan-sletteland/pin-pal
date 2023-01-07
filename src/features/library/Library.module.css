@@ -52,6 +52,14 @@
   .printGrid {
     display: none;
   }
+
+  .truncate {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 300px;
+    display: inline-block;
+  }
 }
 
 /* print */

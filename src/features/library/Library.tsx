@@ -71,7 +71,7 @@ export function Library() {
                         className={styles.visuallyHidden}
                         onChange={() => { setfileName(fileInput.current.files[0].name)}}
                         ref={fileInput} type="file" name="new-image" id="new-image" />
-                    <span>{ fileName }</span>
+                    <span className={styles.truncate}>{ fileName }</span>
                     <Button
                         endIcon={<DriveFileMoveIcon/>}
                         variant="contained" type="button" onClick={() => { 
